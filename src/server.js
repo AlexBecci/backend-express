@@ -17,6 +17,8 @@ const PaymentRoutes = require('./routes/payment.routes')
 */
 const UserRoutes = require('./routes/user.routes')
 const AuthRoutes = require('./routes/auth.routes')
+const DishRoutes = require('./routes/dish.routes')
+const OrderRoutes = require('./routes/order.routes')
 const { authenticateToken } = require('./controller/auth.controller')
 //cors modificado
 const corsOptions = {
@@ -46,6 +48,8 @@ app.use(cors(corsOptions))  // Usa el middleware cors
 // Montar rutas con el prefijo /api
 app.use('/api', AuthRoutes)
 app.use('/api', authenticateToken, UserRoutes)
+app.use('/api', authenticateToken, DishRoutes)
+app.use('/api', authenticateToken, OrderRoutes)
 //publics
 // For any routes not handled by API, serve the React app
 /* app.get('*', (req, res) => {

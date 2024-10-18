@@ -3,7 +3,7 @@ CREATE TABLE dishes (
     name VARCHAR(50),
     description VARCHAR(50),
     category VARCHAR(20),
-    image_url VARCHAR(100),
+    image_url VARCHAR(300),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 );
