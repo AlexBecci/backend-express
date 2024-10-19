@@ -1,5 +1,19 @@
 const { pool } = require("../database/db");
 
+
+
+async function getDishesService(req, res) {
+    /* res.send('Obteniendo todos los clientes') */
+    try {
+        const [rows] = await pool.query('SELECT * FROM dishes');
+        console.log(rows)
+        res.json(rows)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Error en la consulta a la base de datos" })
+    }
+}
+
 async function createDishService(name, description, category, image_url) {
     try {
         const result = await pool.query('INSERT INTO dishes (name,description,category,image_url) VALUES (?,?,?,?)', [name, description, category, image_url])
@@ -21,4 +35,4 @@ async function getDishByNameService(name) {
     }
 }
 
-module.exports = { getDishByNameService, createDishService }
+module.exports = { getDishByNameService, createDishService, getDishesService }

@@ -1,4 +1,11 @@
-const { createDishService, getDishByNameService } = require('../service/dish.service')
+const { createDishService, getDishByNameService, getDishesService } = require('../service/dish.service')
+
+
+
+async function getDishes(req, res) {
+    const result = getDishesService(req, res)
+    return result
+}
 
 async function createDish(req, res) {
     const { name, description, category, image_url } = req.body
@@ -42,5 +49,5 @@ async function nameIsValid(name) {
 
 
 module.exports = {
-    createDish
+    createDish, getDishes
 }
