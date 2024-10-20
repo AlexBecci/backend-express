@@ -1,5 +1,4 @@
 // controllers/dishController.js
-const { pool } = require('../database/db');
 const { insertDailyMenuDishesService, checkDishExistsInMenuService } = require('../service/dailyMenuDishes.service');
 
 async function createDishesByMenuDate(req, res) {
@@ -16,12 +15,12 @@ async function createDishesByMenuDate(req, res) {
 
     if (exists) {
         console.log('El plato ya está en el menú diario.');
-        return { message: 'El plato ya está en el menú diario.' }; // Puedes ajustar esto según tus necesidades
+        return res.status(400).json({ message: 'El plato ya está en el menú diario.' }); // Puedes ajustar esto según tus necesidades
     }
-    const [rows] = await insertDailyMenuDishesService();
+    const rows = await insertDailyMenuDishesService(daily_menu_id, dish_id);
     console.log(rows);
-    return rows;
 
+    return res.status(201).json({ message: 'Plato agregado al menú diario.', rows }); // Respuesta adecuada
 }
 
 

@@ -32,6 +32,8 @@ JOIN
     dishes d ON o.dish_id = d.id
 WHERE 
     o.user_id = ?
+ORDER BY 
+    o.created_at DESC; -- Ordena por fecha de creación, de más reciente a más antiguo
 
 `;
     const [rows] = await pool.query(query, [user_id]); // Placeholder "?" para evitar inyección SQL

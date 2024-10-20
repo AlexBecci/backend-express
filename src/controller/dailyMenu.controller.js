@@ -15,7 +15,7 @@ async function getDishesByMenuDate(req, res) {
             return res.status(204).json({ message: "No se encontraron platos para esa fecha" });
         }
         console.log(dishes)
-        res.json(dishes);
+        return res.json(dishes);
 
     } catch (error) {
         console.error(error);
