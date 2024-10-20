@@ -1,5 +1,5 @@
 // controllers/dishController.js
-const { getDishesByMenuDateService } = require('../service/dailyMenu.service');
+const { getDishesByMenuDateService, getMenuByDateAndUser } = require('../service/dailyMenu.service');
 
 async function getDishesByMenuDate(req, res) {
     try {
@@ -9,7 +9,7 @@ async function getDishesByMenuDate(req, res) {
         }
         console.log(req.query)
         // Llamada al servicio para obtener los platos por fecha de menú
-        const dishes = await getDishesByMenuDateService(date,user_id);
+        const dishes = await getDishesByMenuDateService(date, user_id);
         // Comprobar si hay platos para esa fecha
         if (dishes.length === 0) {
             return res.status(204).json({ message: "No se encontraron platos para esa fecha" });
@@ -23,6 +23,27 @@ async function getDishesByMenuDate(req, res) {
     }
 }
 
+async function getMenuByDate(req, res) {
+
+    const { menu_date, user_id } = req.query;
+
+    // Validación básica de los parámetros
+    if (!menu_date || !user_id) {
+        return res.status(400).json({ message: 'menu_date y user_id son requeridos' });
+    }
+
+    try {
+
+        const [rows] = await getMenuByDateAndUser(menu_date, user_id);
+        // Enviar los resultados como respuesta
+        res.status(200).json(rows);
+
+    } catch (error) {
+        console.error('Error al obtener el menú:', error);
+        res.status(500).json({ message: 'Error del servidor al obtener el menú' });
+    }
+}
+
 module.exports = {
-    getDishesByMenuDate,
+    getDishesByMenuDate, getMenuByDate
 };

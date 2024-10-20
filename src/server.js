@@ -14,6 +14,7 @@ const AuthRoutes = require('./routes/auth.routes')
 const DishRoutes = require('./routes/dish.routes')
 const OrderRoutes = require('./routes/order.routes')
 const DailyMenus = require('./routes/dailyMenu.routes')
+const DailyMenusDishes = require('./routes/dailyMenuDishes.routes')
 const { authenticateToken } = require('./controller/auth.controller')
 //cors modificado
 /* const corsOptions = {
@@ -50,7 +51,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api', AuthRoutes)
 app.use('/api', authenticateToken, UserRoutes)
 app.use('/api', authenticateToken, DailyMenus)
-app.use('/api', /* authenticateToken ,*/ DishRoutes)
+app.use('/api', authenticateToken, DailyMenusDishes)
+app.use('/api', authenticateToken, DishRoutes)
 app.use('/api', authenticateToken, OrderRoutes)
 //publics
 // For any routes not handled by API, serve the React app
