@@ -28,7 +28,6 @@ async function createDish(req, res) {
     } catch (error) {
         console.error(error)
         res.status(500).json({ message: "Error en la creacion del plato en la base de datos" })
-
     }
 }
 

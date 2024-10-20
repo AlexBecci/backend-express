@@ -1,5 +1,5 @@
 // controllers/dishController.js
-const { getDishesByMenuDateService, getMenuByDateAndUser } = require('../service/dailyMenu.service');
+const { getDishesByMenuDateService, getMenuByDateAndUser, insertDayMenuByUser } = require('../service/dailyMenu.service');
 
 async function getDishesByMenuDate(req, res) {
     try {
@@ -23,6 +23,23 @@ async function getDishesByMenuDate(req, res) {
     }
 }
 
+async function createtDayMenu(req, res) {
+    const { menu_date, user_id } = req.body
+
+    if (!menu_date || !user_id) {
+        return res.status(400).json({
+            message: "TODOS LOS CAMPOS (menu_date,user_id) SON REQUERIDOS"
+        })
+    }
+    try {
+        const result = await insertDayMenuByUser(menu_date, user_id)
+        console.log(result)
+        return res.status(201).json(result)
+    } catch (error) {
+        console.error('Error al crear el menú:', error);
+        res.status(500).json({ message: 'Error del servidor al crear el menú' });
+    }
+}
 async function getMenuByDate(req, res) {
 
     const { menu_date, user_id } = req.query;
@@ -45,5 +62,5 @@ async function getMenuByDate(req, res) {
 }
 
 module.exports = {
-    getDishesByMenuDate, getMenuByDate
+    getDishesByMenuDate, getMenuByDate, createtDayMenu
 };

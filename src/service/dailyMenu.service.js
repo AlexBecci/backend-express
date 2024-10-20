@@ -14,6 +14,19 @@ async function getDishesByMenuDateService(date, user_id) {
     return rows
 }
 
+async function insertDayMenuByUser(date, user_id) {
+    const query = `
+    INSERT INTO daily_menu (menu_date,user_id) VALUES (?,?)
+    `;
+    try {
+        const [result] = await pool.query(query, [date, user_id]); // El resultado es un array
+        return { id: result.insertId, message: 'Menú inicializado con éxito' };
+    } catch (error) {
+        console.error('Error al insertar el menú:', error);
+        throw new Error('Error al inicializar el menú');
+    }
+}
+
 async function getMenuByDateAndUser(menu_date, user_id) {
 
     // Preparar y ejecutar la consulta con parámetros
@@ -28,5 +41,5 @@ async function getMenuByDateAndUser(menu_date, user_id) {
 
 }
 module.exports = {
-    getDishesByMenuDateService, getMenuByDateAndUser
+    getDishesByMenuDateService, getMenuByDateAndUser, insertDayMenuByUser
 };
