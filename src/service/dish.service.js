@@ -5,7 +5,7 @@ const { pool } = require("../database/db");
 async function getDishesService(req, res) {
     /* res.send('Obteniendo todos los clientes') */
     try {
-        const [rows] = await pool.query('SELECT * FROM dishes');
+        const [rows] = await pool.query('SELECT * FROM dishes ORDER BY created_at DESC');
         console.log(rows)
         res.json(rows)
     } catch (error) {
