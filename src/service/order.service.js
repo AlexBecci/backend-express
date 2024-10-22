@@ -11,6 +11,18 @@ async function createOrderService(user_id, dish_id, state, daily_menu_id) {
     }
 }
 
+//get count de orders por usuario
+async function getCountOrdersService(user_id) {
+    const query = `
+        SELECT COUNT(*) AS total_orders
+        FROM orders
+        WHERE user_id = ?;
+    `;
+
+    const [rows] = await pool.query(query, [user_id]); // Desestructurando el resultado
+    return rows[0]?.total_orders || 0; // Retorna total_orders o 0 si no hay resultados
+}
+
 //get ordenes por usuario
 async function getOrdersByUser(user_id) {
     const query = `
@@ -58,4 +70,4 @@ AND
 }
 
 
-module.exports = { createOrderService, getOrdersByUser, checkExistingOrder }
+module.exports = { createOrderService, getOrdersByUser, checkExistingOrder, getCountOrdersService }

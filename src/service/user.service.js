@@ -22,6 +22,16 @@ async function getUserById(id) {
     }
 }
 
+async function getUserForPerfil(id) {
+    try {
+        const [row] = await pool.query('SELECT id,name,email,phone_number,created_at,updated_at,rol FROM users WHERE id = ?', [id])
+        return row
+    } catch (error) {
+        console.error("Error en la consulta a la base de datos: ", error);
+        throw new Error("Error en la consulta a la base de datos");
+    }
+}
+
 async function getUserByEmail(email) {
     try {
         const [row] = await pool.query('SELECT * FROM users WHERE email =?', [email])
@@ -43,7 +53,7 @@ async function createUserService(email, password, name, phone_number, rol) {
     }
 }
 
-module.exports = { createUserService, getUserByEmail, getUserById, getUsersService }
+module.exports = { createUserService, getUserByEmail, getUserById, getUsersService, getUserForPerfil }
 
 
 

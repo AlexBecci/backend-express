@@ -1,4 +1,4 @@
-const { createOrderService, getOrdersByUser, checkExistingOrder } = require('../service/order.service')
+const { createOrderService, getOrdersByUser, checkExistingOrder, getCountOrdersService } = require('../service/order.service')
 
 async function createOrder(req, res) {
     const { user_id, dish_id, state, daily_menu_id } = req.body
@@ -23,6 +23,23 @@ async function createOrder(req, res) {
     }
 }
 
+async function getCountOrders(req, res) {
+    const { user_id } = req.query;
+
+    if (!user_id) {
+        return res.status(400).json({
+            message: "TODOS LOS CAMPOS (user_id) SON REQUERIDOS"
+        });
+    }
+
+    try {
+        const result = await getCountOrdersService(user_id); // Agrega await aquí
+        res.status(200).json({ total_orders: result }); // Cambié el mensaje para que sea más claro
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error en la obtención de órdenes por usuario" });
+    }
+}
 //get orders by user
 async function getOrders(req, res) {
     try {
@@ -49,5 +66,5 @@ async function getOrders(req, res) {
 
 
 module.exports = {
-    createOrder, getOrders
+    createOrder, getOrders, getCountOrders
 }
